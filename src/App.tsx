@@ -1,34 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { TextareaHTMLAttributes, useState } from "react";
+import {Remarkable} from 'remarkable'; 
+import "./index.css";
 
-function App() {
-  const [count, setCount] = useState(0)
 
-  return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  )
+const App = () => {
+  const initialState = {
+    value: 'Escribe *markdown* aqui'
+  }
+  const [markdownState, setMarkdownState] = useState(initialState);
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setMarkdownState({ 
+      value: e.target.value
+  });
+  }
+  const  getRawMarkup = () => {
+    const md = new Remarkable();
+    return {__html: md.render(markdownState.value)};
 }
 
-export default App
+  return (
+    <div className="container">
+      <div className="input">
+        <h3>Input</h3>
+        <textarea
+          className="input-text"
+          onChange={handleChange}
+          defaultValue={markdownState.value}
+        />
+      </div>
+      <div className="output">
+        <h3>Markdown</h3>
+        <div
+          dangerouslySetInnerHTML={getRawMarkup()}
+          className="output-text"
+        ></div>
+      </div>
+    </div>
+  );
+}
+
+export default App;
