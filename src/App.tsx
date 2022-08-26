@@ -1,11 +1,11 @@
-import { TextareaHTMLAttributes, useState } from "react";
-import {Remarkable} from 'remarkable'; 
+import { useState } from "react";
+import { Remarkable } from 'remarkable'; 
 import "./index.css";
 
 
 const App = () => {
   const initialState = {
-    value: 'Escribe *markdown* aqui'
+    value: 'Write *markdown* here [Rules](http://nodeca.github.io/pica/demo/ "title text!")'
   }
   const [markdownState, setMarkdownState] = useState(initialState);
 
@@ -15,7 +15,7 @@ const App = () => {
   });
   }
   const  getRawMarkup = () => {
-    const md = new Remarkable();
+    const md = new Remarkable({  typographer:  true  });
     return {__html: md.render(markdownState.value)};
 }
 
